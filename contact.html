@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> CONTACT</title>
+   
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <style>
+    css
+Code kopieren
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  display: flex;
+}
+
+.left-side {
+  flex: 1;
+}
+
+.right-side {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.details {
+  margin-bottom: 20px;
+}
+
+.details i {
+  margin-right: 10px;
+  color: #333;
+}
+
+.topic {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.text-one {
+  margin-bottom: 3px;
+}
+
+.text-two {
+  margin-bottom: 15px;
+}
+
+.topic-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+form {
+  margin-top: 10px;
+}
+
+.input-box {
+  margin-bottom: 10px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.message-box textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+.button {
+  margin-top: 10px;
+}
+
+.button input[type="button"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button input[type="button"]:hover {
+  background-color: #45a049;
+}
+   </style>
+    </head>
+<body class="contact">
+  <div class="container">
+    <div class="content">
+      <div class="left-side">
+        <div class="address details">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="topic">Address</div>
+          <div class="text-one">Madagascar</div>
+          <div class="text-two">Nosy be/207</div>
+        </div>
+        <div class="phone details">
+          <i class="fas fa-phone-alt"></i>
+          <div class="topic">Phone</div>
+          <div class="text-one">+261322826450</div>
+        </div>
+        <div class="email details">
+          <i class="fas fa-envelope"></i>
+          <div class="topic">Email</div>
+          <div class="text-one">joenosybetourguidemada@gmail.com</div>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="topic-text">Send me a message</div>
+        <p>If you have any questions feel free to text me at anytime.</p>
+      <form action="#">
+        <div class="input-box">
+          <input type="text" placeholder="Enter your name">
+        </div>
+        <div class="input-box">
+          <input type="text" placeholder="Enter your email">
+        </div>
+        <div class="input-box message-box">
+          
+        </div>
+        <div class="button">
+          <input type="button" value="Send Now" >
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Validate form fields (simple validation for demonstration)
+    const name = form.querySelector('input[type="text"][placeholder="Enter your name"]').value.trim();
+    const email = form.querySelector('input[type="text"][placeholder="Enter your email"]').value.trim();
+    const message = form.querySelector('textarea').value.trim();
+
+    if (name === '' || email === '' || message === '') {
+      alert('Please fill in all fields.');
+    } else {
+      // Normally, you would send the form data to a server here
+      // For demonstration, let's just log the form data
+      console.log('Name:', name);
+      console.log('Email:', email);
+      console.log('Message:', message);
+
+      // Optionally, you can clear the form after submission
+      form.reset();
+    }
+  });
+});
+  </script>
+</body>
+</html>

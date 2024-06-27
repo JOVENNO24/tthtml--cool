@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+   <style>
+    .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#photoGallery {
+    margin-top: 20px;
+}
+
+/* Add more styling as needed */
+   </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Photo Gallery</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="photo" accept="image/*">
+            <button type="submit">Upload Photo</button>
+        </form>
+        <div id="photoGallery"></div>
+    </div><script>
+
+document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    let formData = new FormData(this);
+    try {
+        let response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        if (response.ok) {
+            alert('Photo uploaded successfully!');
+            // Optionally refresh photo gallery
+            fetchPhotos();
+        } else {
+            alert('Failed to upload photo.');
+        }
+    } catch (error) {
+        console.error('Error uploading photo:', error);
+        alert('Failed to upload photo.');
+    }
+});
+
+async function fetchPhotos() {
+    try {
+        let response = await fetch('/photos');
+        if (response.ok) {
+            let photos = await response.json();
+            displayPhotos(photos);
+        } else {
+            console.error('Failed to fetch photos.');
+        }
+    } catch (error) {
+        console.error('Error fetching photos:', error);
+    }
+}
+
+function displayPhotos(photos) {
+    let galleryDiv = document.getElementById('photoGallery');
+    galleryDiv.innerHTML = '';
+    photos.forEach(photo => {
+        let imgElement = document.createElement('img');
+        imgElement.src = photo.url; // Assuming 'url' property in JSON response
+        imgElement.alt = photo.filename; // Assuming 'filename' property in JSON response
+        galleryDiv.appendChild(imgElement);
+    });
+}
+
+// Initial fetch when page loads
+fetchPhotos();
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const app = express();
+const port = 3000;
+
+// Multer setup for file upload
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Endpoint for file upload
+app.post('/upload', upload.single('photo'), (req, res) => {
+    res.status(200).send('File uploaded successfully');
+});
+
+// Endpoint for fetching photos (example, should be adapted to your storage method)
+app.get('/photos', (req, res) => {
+    const photoDirectory = path.join(__dirname, 'uploads');
+    fs.readdir(photoDirectory, (err, files) => {
+        if (err) {
+            console.error('Error reading photos directory:', err);
+            res.status(500).send('Failed to fetch photos');
+            return;
+        }
+        let photos = files.map(file => ({ url: `/uploads/${file}`, filename: file }));
+        res.json(photos);
+    });
+});
+
+// Serve static files from 'uploads' directory
+app.use('/uploads', express.static('uploads'));
+
+// Start server
+app.listen(port, () => {
+    console.log(`Server is listening at http://localhost:${port}`);
+});
+</script>
+</body>
+</html>
